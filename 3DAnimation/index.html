@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <title>2022</title>
+  </head>
+  <body>
+    <h1>距離抽獎時間還有</h1>
+    <div class="container">
+      <div id="box_day_tens" class="text">
+        <span id="day_tens_face_1" style="--i: 0"></span>
+        <span id="day_tens_face_2" style="--i: 1"></span>
+        <span id="day_tens_face_3" style="--i: 2"></span>
+        <span id="day_tens_face_4" style="--i: 3"></span>
+      </div>
+      <div id="box_day_digits" class="text">
+        <span id="day_digits_face_1" style="--i: 0"></span>
+        <span id="day_digits_face_2" style="--i: 1"></span>
+        <span id="day_digits_face_3" style="--i: 2"></span>
+        <span id="day_digits_face_4" style="--i: 3"></span>
+      </div>
+      <div id="" class="text">
+        <span id="" style="--i: 0">:</span>
+        <span id="" style="--i: 1"></span>
+        <span id="" style="--i: 2"></span>
+        <span id="" style="--i: 3"></span>
+      </div>
+      <div id="box_hour_tens" class="text">
+        <span id="hour_tens_face_1" style="--i: 0"></span>
+        <span id="hour_tens_face_2" style="--i: 1"></span>
+        <span id="hour_tens_face_3" style="--i: 2"></span>
+        <span id="hour_tens_face_4" style="--i: 3"></span>
+      </div>
+      <div id="box_hour_digits" class="text">
+        <span id="hour_digits_face_1" style="--i: 0"></span>
+        <span id="hour_digits_face_2" style="--i: 1"></span>
+        <span id="hour_digits_face_3" style="--i: 2"></span>
+        <span id="hour_digits_face_4" style="--i: 3"></span>
+      </div>
+      <div id="" class="text">
+        <span id="" style="--i: 0">:</span>
+        <span id="" style="--i: 1"></span>
+        <span id="" style="--i: 2"></span>
+        <span id="" style="--i: 3"></span>
+      </div>
+      <div id="box_minute_tens" class="text">
+        <span id="minute_tens_face_1" style="--i: 0"></span>
+        <span id="minute_tens_face_2" style="--i: 1"></span>
+        <span id="minute_tens_face_3" style="--i: 2"></span>
+        <span id="minute_tens_face_4" style="--i: 3"></span>
+      </div>
+      <div id="box_minute_digits" class="text">
+        <span id="minute_digits_face_1" style="--i: 0"></span>
+        <span id="minute_digits_face_2" style="--i: 1"></span>
+        <span id="minute_digits_face_3" style="--i: 2"></span>
+        <span id="minute_digits_face_4" style="--i: 3"></span>
+      </div>
+      <div id="" class="text">
+        <span id="" style="--i: 0">:</span>
+        <span id="" style="--i: 1"></span>
+        <span id="" style="--i: 2"></span>
+        <span id="" style="--i: 3"></span>
+      </div>
+      <div id="box_second_tens" class="text">
+        <span id="second_tens_face_1" style="--i: 0"></span>
+        <span id="second_tens_face_2" style="--i: 1"></span>
+        <span id="second_tens_face_3" style="--i: 2"></span>
+        <span id="second_tens_face_4" style="--i: 3"></span>
+      </div>
+      <div id="box_second_digits" class="text">
+        <span id="second_digits_face_1" style="--i: 0"></span>
+        <span id="second_digits_face_2" style="--i: 1"></span>
+        <span id="second_digits_face_3" style="--i: 2"></span>
+        <span id="second_digits_face_4" style="--i: 3"></span>
+      </div>
+    </div>
+		<a href="lottery.html">去抽獎</a>
+  </body>
+  <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    var targetTime = new Date("2022-01-10 00:00:00").getTime() / 1000;
+    var currentTime = Math.round(new Date().getTime() / 1000);
+    var seconds = targetTime - currentTime;
+    var lastState = seconds;
+    let second_digits_deg = 0;
+    let second_tens_deg = 0;
+    let minute_digits_deg = 0;
+    let minute_tens_deg = 0;
+    let minuteCount = 0;
+    let minuteRollCount = 0;
+    let minuteObj = 2;
+    let minuteTensNum = 1;
+    let hour_digits_deg = 0;
+    let hour_tens_deg = 0;
+    let hourCount = 0;
+    let hourRollCount = 0;
+    let hourObj = 2;
+    let hourTensNum = 1;
+    function rollBox(boxID) {
+      let box = document.getElementById(boxID);
+      second_digits_deg -= 90;
+      box.style.transform = "rotateX(" + second_digits_deg + "deg)";
+    }
+    function rollSecond_Digits(sec) {
+      console.log(sec);
+      let count = sec;
+      let rollCount = sec % 10;
+      let secondObj = 2;
+      let tensNum = 1;
+      let timer = setInterval(function () {
+        seconds--;
+        if (seconds > 0) {
+          count--;
+          if (count <= 0) {
+            count = 60;
+            rollMinute();
+          } else if (count < 10) {
+            count = "0" + count;
+          }
+          var countArr = count.toString().split("");
+
+          rollCount++;
+          // console.log(rollCount)
+          if (count % 10 == 9) {
+            tensNum++;
+            if (tensNum > 4) {
+              tensNum = 1;
+            }
+            rollSecond_Tens(tensNum, countArr[0]);
+            rollCount = 0;
+          }
+          let DigitsName = "second_digits_face_" + secondObj;
+          document.getElementById(DigitsName).innerText = countArr[1];
+          // console.log(name, countArr[1]);
+          secondObj++;
+          if (secondObj > 4) {
+            secondObj = 1;
+          }
+          rollBox("box_second_digits");
+        } else {
+          clearInterval(timer);
+        }
+      }, 1000);
+    }
+    function rollSecond_Tens(tensNum, num) {
+      if (tensNum != 0) {
+        let box = document.getElementById("box_second_tens");
+        second_tens_deg -= 90;
+        box.style.transform = "rotateX(" + second_tens_deg + "deg)";
+        let TensName = "second_tens_face_" + tensNum;
+        document.getElementById(TensName).innerText = num;
+      } else {
+        document.getElementById("second_tens_face_1").innerText = num;
+      }
+    }
+
+    setInitTime(seconds);
+
+    function rollMinute() {
+      minuteCount--;
+      if (minuteCount <= 0) {
+        minuteCount = 60;
+        rollHour();
+      } else if (minuteCount < 10) {
+        minuteCount = "0" + minuteCount;
+      }
+      var countArr = minuteCount.toString().split("");
+      minuteRollCount++;
+      if (minuteCount % 10 == 9) {
+        minuteTensNum++;
+        if (minuteTensNum > 4) {
+          minuteTensNum = 1;
+        }
+        rollMinuteTensBox(minuteTensNum, countArr[0]);
+        minuteRollCount = 0;
+      }
+      let DigitsName = "minute_digits_face_" + minuteObj;
+      document.getElementById(DigitsName).innerText = countArr[1];
+      // console.log(name, countArr[1]);
+      minuteObj++;
+      if (minuteObj > 4) {
+        minuteObj = 1;
+      }
+      rollMinuteDigitsBox();
+    }
+    function rollMinuteDigitsBox() {
+      //轉動分鐘個位數
+      let box = document.getElementById("box_minute_digits");
+      minute_digits_deg -= 90;
+      box.style.transform = "rotateX(" + minute_digits_deg + "deg)";
+    }
+    function rollMinuteTensBox(tensNum, num) {
+      //轉動分鐘十位數
+      if (tensNum != 0) {
+        let box = document.getElementById("box_minute_tens");
+        minute_tens_deg -= 90;
+        box.style.transform = "rotateX(" + minute_tens_deg + "deg)";
+        let TensName = "minute_tens_face_" + tensNum;
+        document.getElementById(TensName).innerText = num;
+      } else {
+        document.getElementById("minute_tens_face_1").innerText = num;
+      }
+    }
+
+    function rollHour() {
+      hourCount--;
+      if (hourCount < 0) {
+        hourCount = 23;
+      } else if (hourCount < 10) {
+        hourCount = "0" + hourCount;
+      }
+      var countArr = hourCount.toString().split("");
+
+      hourRollCount++;
+      console.log(hourRollCount);
+      switch (hourRollCount) {
+        case 4:
+          hourTensNum++;
+          if (hourTensNum > 4) {
+            hourTensNum = 1;
+          }
+          rollHourTensBox(hourTensNum, countArr[0]);
+          break;
+        case 14:
+          hourTensNum++;
+          if (hourTensNum > 4) {
+            hourTensNum = 1;
+          }
+          rollHourTensBox(hourTensNum, countArr[0]);
+          break;
+        case 24:
+          hourTensNum++;
+          if (hourTensNum > 4) {
+            hourTensNum = 1;
+          }
+          rollHourTensBox(hourTensNum, countArr[0]);
+          hourRollCount = 0;
+          break;
+      }
+      // if (hourRollCount == 10) {
+      //   hourRollCount = 0;
+      // }
+      let DigitsName = "hour_digits_face_" + hourObj;
+      document.getElementById(DigitsName).innerText = countArr[1];
+      // console.log(name, countArr[1]);
+      hourObj++;
+      if (hourObj > 4) {
+        hourObj = 1;
+      }
+      rollHourDigitsBox();
+    }
+    function rollHourDigitsBox() {
+      //轉動分鐘個位數
+      let box = document.getElementById("box_hour_digits");
+      hour_digits_deg -= 90;
+      box.style.transform = "rotateX(" + hour_digits_deg + "deg)";
+    }
+    function rollHourTensBox(tensNum, num) {
+      //轉動分鐘十位數
+      if (tensNum != 0) {
+        let box = document.getElementById("box_hour_tens");
+        hour_tens_deg -= 90;
+        box.style.transform = "rotateX(" + hour_tens_deg + "deg)";
+        let TensName = "hour_tens_face_" + tensNum;
+        document.getElementById(TensName).innerText = num;
+      } else {
+        document.getElementById("hour_tens_face_1").innerText = num;
+      }
+    }
+
+    function setInitTime(num) {
+      var secs = (num % 3600) % 60;
+      var minutes = Math.floor((num % 3600) / 60);
+      var hours = Math.floor((num / 3600) % 24);
+      var days = Math.floor(num / 86400);
+      var data = []
+        .concat(days.toString().padStart(2, "0").split(""))
+        .concat(hours.toString().padStart(2, "0").split(""))
+        .concat(minutes.toString().padStart(2, "0").split(""))
+        .concat(secs.toString().padStart(2, "0").split(""));
+      document.getElementById("second_digits_face_1").innerText = data[7];
+      document.getElementById("second_tens_face_1").innerText = data[6];
+      document.getElementById("minute_digits_face_1").innerText = data[5];
+      document.getElementById("minute_tens_face_1").innerText = data[4];
+      document.getElementById("hour_digits_face_1").innerText = data[3];
+      document.getElementById("hour_tens_face_1").innerText = data[2];
+      document.getElementById("day_digits_face_1").innerText = data[1];
+      document.getElementById("day_tens_face_1").innerText = data[0];
+      minuteCount = minutes;
+      hourCount = hours;
+      rollSecond_Digits(secs);
+    }
+  </script>
+</html>

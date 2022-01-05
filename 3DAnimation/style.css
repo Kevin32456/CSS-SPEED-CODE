@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap");
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Oswald',sans-serif;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #3d3d3d;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+a{
+    margin: 20px;
+    color: #fff;
+}
+.container{
+    display: flex;
+    transform-style: preserve-3d;
+    margin-top: 10px;
+    gap: 5px;
+    flex-basis: 100%;
+    transform: rotateY(30deg) rotateX(10deg);
+}
+.container .text{
+    position: relative;
+    width: 80px;
+    height: 80px;
+    transform-style: preserve-3d;
+    transition: 1s;
+    /* transition-delay: calc(0.25s * var(--j)); */
+}
+/* .container:hover .text{
+    transform: rotateX(-360deg);
+}
+.container:hover .text:last-child{
+    transform: rotateX(720deg);
+} */
+.container .text::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-origin: left;
+    background: #434343;
+    transform:  rotateY(90deg) translateX(-40px);
+}
+.container .text:last-child::before{
+    background: #29ab3c;
+}
+.container .text::after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-origin: right;
+    background: #434343;
+    transform:  rotateY(-90deg) translateX(40px);
+}
+.container .text span
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#434343,#535353);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    color: #fff;
+    transform-style: preserve-3d;
+    transform: rotateX(calc(90deg * var(--i))) translateZ(40px);
+}
+.container .text:last-child span {
+    background: linear-gradient(#29c040,#32ed4e);
+    color: #333;
+}
