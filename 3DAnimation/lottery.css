@@ -78,7 +78,7 @@
 
   .arrow {
     position: absolute;
-    top: 0;
+    top: 190px;
     left: 50%;
     transform: translateX(-50%);
     color: #fff;
